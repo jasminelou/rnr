@@ -1,0 +1,78 @@
+import math
+
+print("Denominators can only have prime factors smaller than or equal to 31.")
+
+factorsN = []
+factorsD = []
+factorsDenom = []
+commonFactors = []
+primeNumbers = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
+repeatingDigits = [0, 1, 0, 6, 2, 6, 16, 18, 22, 28, 15]
+nonRepeatingDigits = [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+weird3s = [6, 12, 15, 24, 27, 48]
+
+n = int(input("Numerator: "))
+d = int(input("Denominator: "))
+n2 = n
+d2 = d
+repeat = 0
+norepeat = 0
+
+while d <= n:
+    d = int(input("Try Again. Enter a denominator that is larger than your numerator: "))
+
+for a in range(2, n+1):
+    while n%a == 0:
+        factorsN.append(a)
+        n = n/a
+    a += 1
+
+for b in range(2, d+1):
+    while d%b == 0:
+        factorsD.append(b)
+        d = d/b
+    b += 1
+
+for e in factorsN:
+    if e in factorsD:
+        commonFactors.append(e)
+        
+biggestCommonFactor = 1
+for item in commonFactors:
+    biggestCommonFactor = biggestCommonFactor * item
+    
+denominator = int( d2 / biggestCommonFactor)
+d3 = denominator
+
+for b in range(2, denominator+1):
+    while denominator%b == 0:
+        factorsDenom.append(b)
+        denominator = denominator/b
+    b += 1
+
+if 2 in factorsDenom and 5 in factorsDenom:
+    norepeat += 1
+    denominator /= 10
+    factorsDenom.remove(5)
+    factorsDenom.remove(2)
+
+if 3 in factorsDenom and d3%10 != 0:
+    if d3 in weird3s:
+        print(" ")
+    else:
+        repeat = repeat - 1
+
+for items in primeNumbers:
+    while items in factorsDenom:
+        y = primeNumbers.index(items)
+        norepeat = norepeat + nonRepeatingDigits[y]
+        repeat = repeat + repeatingDigits[y]
+        factorsDenom.remove(items)
+    items += 1
+
+
+
+print("Non repeating: ")
+print(norepeat)
+print("Repeating: ")
+print(repeat)
